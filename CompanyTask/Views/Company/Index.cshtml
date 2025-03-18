@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CompanyTask.Models.CompanyModel>
+@{
+    ViewData["Title"] = "Companies";
+}
+
+<h2>Companies</h2>
+
+<p>
+    <a asp-action="Create" class="text-primary text-decoration-none">Create New Company</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Company Name</th>
+            <th>Start Date</th>
+            <th>Is Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var company in Model)
+        {
+            <tr>
+                <td>@company.Id</td>
+                <td>@company.CompanyName</td>
+                <td>@company.Startdate.ToShortDateString()</td>
+                <td>@company.IsActive</td>
+                <td class="d-flex justify-content-evenly">
+                    <a asp-action="Edit" asp-route-id="@company.Id" class="text-primary text-decoration-none">Edit</a>
+                    <hr />
+
+                    <form id="deleteForm-@company.Id" method="post" asp-action="Delete" asp-route-id="@company.Id" style="display:none;">
+                    </form>
+
+                    <a href="javascript:void(0);" onclick="confirmDelete(@company.Id)" class="text-primary text-decoration-none">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function confirmDelete(id) {
+        if (confirm("Are you sure you want to delete this company?")) {
+            document.getElementById("deleteForm-" + id).submit();
+        }
+    }
+</script>
+
+
